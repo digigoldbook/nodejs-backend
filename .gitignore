@@ -1,0 +1,48 @@
+# Logs
+logs
+*.log
+
+# Node.js
+node_modules/
+npm-debug.log
+
+# Build artifacts
+build/
+dist/
+*.exe
+*.msi
+*.zip
+
+# Dependency directories
+.pnp/
+.pnp.js
+
+# Optional npm cache directory
+.npm
+
+# dotenv environment variables file
+.env
+
+# IDE files
+.idea/
+.vscode/
+
+# OS generated files
+.DS_Store
+Thumbs.db
+
+# Editor directories
+.editorconfig
+
+# Mac specific
+.DS_Store
+
+# Windows specific
+Thumbs.db
+Desktop.ini
+
+# Visual Studio Code specific files
+.vscode/
+
+# Morgan log files
+logs/
