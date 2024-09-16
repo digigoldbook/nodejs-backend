@@ -9,6 +9,7 @@ let db_name = process.env.DB_NAME ?? "project_gold";
 const sequelize = new Sequelize(db_name, db_user, db_pass, {
   host: db_host,
   dialect: "mysql",
+  port: 3306,
 });
 
 const authenticate = async () => {
