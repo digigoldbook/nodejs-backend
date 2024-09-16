@@ -83,3 +83,20 @@ create table if not exists feedback(
     updatedAt timestamp default current_timestamp on update current_timestamp
 );
 
+CREATE TABLE IF NOT EXISTS gold_deposit_record (
+    id INT PRIMARY KEY AUTO_INCREMENT NOT NULL,
+    items JSON NOT NULL,
+    createdAt TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    updatedAt TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP
+);
+
+
+CREATE TABLE IF NOT EXISTS gold_deposit_metadata (
+    id INT PRIMARY KEY AUTO_INCREMENT NOT NULL,
+    userId INT NOT NULL,
+    balance_date DATE NOT NULL,
+    opening_balance DECIMAL(10, 2) NOT NULL,
+    closing_balance DECIMAL(10, 2) NOT NULL,
+    FOREIGN KEY (userId) REFERENCES Users(id) ON DELETE CASCADE,
+    UNIQUE(userId, balance_date)
+);
