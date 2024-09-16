@@ -24,7 +24,7 @@ import CategoryAssoc from "./src/components/category/model/CategoryAssoc.js";
 
 // API routes handling -> config -> api_routes.js
 import apiRoutes from "./src/config/api_routes.js";
-app.use("/api/v1", apiRoutes);
+app.use("/api", apiRoutes);
 app.use(errorHandler);
 
 const PORT = process.env.PORT || 5000;
