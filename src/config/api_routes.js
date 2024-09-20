@@ -41,4 +41,7 @@ apiRoutes.use("/feedback", feedbackRoute);
 import goldDepositRoute from "../components/goldDeposit/router/GoldDepositRoute.js";
 apiRoutes.use("/gold-deposit", goldDepositRoute);
 
+import cashDepositRoute from "../components/cash-deposit/router/CashDepositRouter.js";
+apiRoutes.use("/cash-deposit", cashDepositRoute);
+
 export default apiRoutes;

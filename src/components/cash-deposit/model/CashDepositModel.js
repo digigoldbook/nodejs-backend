@@ -1,9 +1,9 @@
 import { DataTypes, Model } from "sequelize";
 import db from "../../../config/db.js";
 
-class CashDeposiModel extends Model {}
+class CashDepositModel extends Model {}
 
-CashDeposiModel.init(
+CashDepositModel.init(
   {
     id: {
       type: DataTypes.INTEGER,
@@ -36,6 +36,15 @@ CashDeposiModel.init(
       type: DataTypes.BIGINT,
       allowNull: false,
     },
+    shop_id: {
+      type: DataTypes.INTEGER,
+      allowNull: false,
+      references: {
+        model: "shop", 
+        key: "id",
+      },
+      onDelete: "cascade",
+    },
   },
   {
     sequelize: db.sequelize,
@@ -45,4 +54,4 @@ CashDeposiModel.init(
   }
 );
 
-export default CashDeposiModel;
+export default CashDepositModel;
