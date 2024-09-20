@@ -101,3 +101,17 @@ CREATE TABLE IF NOT EXISTS gold_deposit_metadata (
     FOREIGN KEY (userId) REFERENCES Users(id) ON DELETE CASCADE,
     UNIQUE(userId, balance_date)
 );
+
+create table cash_deposit(
+	id int primary key auto_increment not null,
+	customer_name varchar(32) not null,
+	customer_contact bigint not null,
+	amount decimal(10,2) not null,
+	rate decimal(10,2) not null,
+	time int not null,
+	time_unit varchar(32) not null,
+	shop_id int not null,
+	createdAt timestamp default current_timestamp,
+	updatedAt timestamp default current_timestamp on update current_timestamp,
+	foreign key(shop_id) references shop(id) on delete cascade
+);
