@@ -11,6 +11,10 @@ GoldDepositModel.init(
       autoIncrement: true,
       primaryKey: true,
     },
+    post_title: {
+      type: DataTypes.STRING,
+      allowNull: false,
+    },
     userId: {
       type: DataTypes.INTEGER,
       allowNull: false,

@@ -2,10 +2,10 @@ import GoldDepositModel from "../model/GoldDepositModel.js";
 
 const newGoldDeposit = async (req, res) => {
   try {
-    const { items, userId } = req.body;
+    const { items, post_title , userId } = req.body;
 
     const data = await GoldDepositModel.create({
-      items,userId
+      items,userId, post_title
     });
 
     return res.status(201).json({

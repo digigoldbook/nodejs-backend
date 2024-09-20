@@ -85,6 +85,7 @@ create table if not exists feedback(
 
 CREATE TABLE IF NOT EXISTS gold_deposit_record (
     id INT PRIMARY KEY AUTO_INCREMENT NOT NULL,
+    post_title varchar(255) not null,
     items JSON NOT NULL,
     createdAt TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
     updatedAt TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP
