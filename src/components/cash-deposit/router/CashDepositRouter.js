@@ -3,11 +3,11 @@ import multer from "multer";
 
 import createCashDeposit from "../controller/CreateCashDeposit.js";
 
-const gRouter = express.Router();
+const cashRouter = express.Router();
 const upload = multer();
 
-gRouter.get("/", createCashDeposit.fetchItems);
-gRouter.post("/", upload.none(), createCashDeposit.createCashDeposit);
-gRouter.delete("/", createCashDeposit.deleteCashDeposit);
+cashRouter.get("/", createCashDeposit.fetchItems);
+cashRouter.post("/", upload.none(), createCashDeposit.createCashDeposit);
+cashRouter.delete("/", createCashDeposit.deleteCashDeposit);
 
-export default gRouter;
+export default cashRouter;
