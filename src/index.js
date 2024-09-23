@@ -1,6 +1,7 @@
 import express from "express";
 import bodyParser from "body-parser";
 import morgan from "morgan";
+import cors from 'cors';
 import 'dotenv/config';
 import db from './config/db.js';
 import {errorHandler} from "./components/authentication/helper/AuthHelper.js";
@@ -26,6 +27,7 @@ import CategoryAssoc from "./components/category/model/CategoryAssoc.js";
 import apiRoutes from "./config/api_routes.js";
 app.use("/", apiRoutes);
 app.use(errorHandler);
+app.use(cors());
 
 const PORT = process.env.PORT || 5000;
 
