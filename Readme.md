@@ -13,3 +13,15 @@ To deploy this project run
 ```bash
   docker run -p 3000:3000 project-gold
 ```
+
+## Documentation
+
+### Login
+username:
+password: 
+
+### Users
+Get:
+  {
+    
+  }

@@ -12,8 +12,8 @@ const upload = multer();
 
 uRoute.get(
   "/",
-  // authenticateToken,
-  // authorizeRoles(["admin"]),
+  authenticateToken,
+  authorizeRoles(["admin"]),
   UserController.fetchUsers
 );
 uRoute.put(
