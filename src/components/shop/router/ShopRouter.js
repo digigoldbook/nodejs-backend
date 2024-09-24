@@ -9,13 +9,9 @@ import {
 const sRoute = express.Router();
 let upload = multer();
 
-// sRoute.get("/", authenticateToken, ShopController.fetchShops);
-// sRoute.post("/", authenticateToken, upload.none(), ShopController.addShop);
-// sRoute.delete("/", authenticateToken, ShopController.deleteShop);
-
-sRoute.get("/", ShopController.fetchShops);
-sRoute.post("/", upload.none(), ShopController.addShop);
-sRoute.delete("/",  ShopController.deleteShop);
-
+sRoute.get("/", authenticateToken, ShopController.fetchShops);
+sRoute.post("/", authenticateToken, upload.none(), ShopController.addShop);
+sRoute.delete("/", authenticateToken, ShopController.deleteShop);
+sRoute.put("/", authenticateToken, ShopController.updateShop);
 
 export default sRoute;

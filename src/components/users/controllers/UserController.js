@@ -1,4 +1,5 @@
 import Joi from "joi";
+import { Op } from "sequelize";
 
 import UserModel from "../model/UserModel.js";
 import UserMetaModel from "../model/UserMetaModel.js";
@@ -10,17 +11,23 @@ const fetchUsers = async (req, res) => {
   try {
     let page = parseInt(req.query.page) || 1;
     let perPage = parseInt(req.query.perPage) || 10;
-
     let sort = req.query.sort || "asc";
     let role = req.query.role;
+    let fullname = req.query.fullname || ""; // Capture the fullname filter
     let offset = (page - 1) * perPage;
 
+    // Build the where clause for fullname and role
+    let whereClause = {
+      ...(fullname && { fullname: { [Op.like]: `%${fullname}%` } }) // Add fullname filter if provided
+    };
+
     let users = await UserModel.findAll({
+      where: whereClause, // Include where clause for fullname
       include: [
         {
           model: UserMetaModel,
           as: "meta",
-          where: role ? { meta_key: "role", meta_value: role } : {},
+          where: role ? { meta_key: "role", meta_value: role } : {}, // Add role filter
         },
       ],
       order: [["id", sort.toUpperCase()]],
@@ -29,11 +36,12 @@ const fetchUsers = async (req, res) => {
     });
 
     const totalCount = await UserModel.count({
+      where: whereClause, // Include where clause for fullname in the count
       include: [
         {
           model: UserMetaModel,
           as: "meta",
-          where: role ? { meta_key: "role", meta_value: role } : {},
+          where: role ? { meta_key: "role", meta_value: role } : {}, // Add role filter
         },
       ],
     });
@@ -62,30 +70,6 @@ const fetchUsers = async (req, res) => {
       status: 200,
       data: formattedUsers,
       pagination: pagination,
-    });
-  } catch (error) {
-    return res.status(500).json({
-      status: 500,
-      error: error.message || "Internal Server Error",
-    });
-  }
-};
-
-const profileDetails = async (req, res) => {
-  try {
-    let { email } = req.query;
-    let user = await UserModel.findOne({
-      where: { email },
-    });
-    if (!user) {
-      return res.status(404).json({
-        status: 400,
-        message: `User not found`,
-      });
-    }
-    return res.status(200).json({
-      status: 200,
-      data: user,
     });
   } catch (error) {
     return res.status(500).json({
@@ -146,6 +130,19 @@ const passwordReset = async (req, res) => {
         status: 400,
         message: error.details[0].message,
       });
+    }
+
+    let items = await UserModel.findOne({
+      where: {
+        email,
+      }
+    });
+
+    if(!items){
+      return res.status(400).json({
+        status: 400,
+        message: "User not found",
+      })
     }
 
     let { newPassword, confirmPassword } = value;
