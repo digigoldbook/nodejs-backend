@@ -15,12 +15,16 @@ GoldDepositModel.init(
       type: DataTypes.STRING,
       allowNull: false,
     },
-    userId: {
+    shop_id: {
       type: DataTypes.INTEGER,
       allowNull: false,
+      references: {
+        model: "shop",
+        key: "id",
+      },
     },
     items: {
-      type: DataTypes.JSON, 
+      type: DataTypes.JSON,
       allowNull: false,
     },
   },
