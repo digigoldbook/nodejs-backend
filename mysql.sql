@@ -85,9 +85,20 @@ create table if not exists feedback(
 
 CREATE TABLE IF NOT EXISTS gold_deposit_record (
     id INT PRIMARY KEY AUTO_INCREMENT NOT NULL,
-    post_title varchar(255) not null,
-    items JSON NOT NULL,
-    shop_id int,
+    product_name varchar(255) not null,
+    product_title JSON NOT NULL,
+    serial_no varchar(255) not null,
+    unique_code varchar(255) not null,
+    customer_name varchar(50) not null,
+    customer_contact bigint not null,
+    bank_bone_number varchar(255) null,
+    item_count int not null,
+    product_amount decimal(10,3) not null,
+    product_rate decimal(5,2) default 36,
+    duration int not null,
+    duration_unit varchar(16) default "month";
+    product_status varchar(16) default "running",
+    shop_id int not null,
     createdAt TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
     updatedAt TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
     foreign key(shop_id) references shop(id)

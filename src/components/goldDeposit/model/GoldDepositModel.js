@@ -11,9 +11,58 @@ GoldDepositModel.init(
       autoIncrement: true,
       primaryKey: true,
     },
-    post_title: {
+    product_name: {
       type: DataTypes.STRING,
       allowNull: false,
+    },
+    product_title: {
+      type: DataTypes.JSON,
+      allowNull: false,
+    },
+    serial_no: {
+      type: DataTypes.STRING,
+      allowNull: false,
+    },
+    unique_code: {
+      type: DataTypes.STRING,
+      allowNull: false,
+    },
+    customer_name: {
+      type: DataTypes.STRING(50),
+      allowNull: false,
+    },
+    customer_contact: {
+      type: DataTypes.BIGINT,
+      allowNull: false,
+    },
+    bank_bone_number: {
+      type: DataTypes.STRING,
+      allowNull: true,
+    },
+    item_count: {
+      type: DataTypes.INTEGER,
+      allowNull: false,
+    },
+    product_amount: {
+      type: DataTypes.DECIMAL(10, 3),
+      allowNull: false,
+    },
+    product_rate: {
+      type: DataTypes.DECIMAL(5, 2),
+      defaultValue: 36.0,
+    },
+    duration: {
+      type: DataTypes.INTEGER,
+      allowNull: false,
+    },
+    duration_unit: {
+      type: DataTypes.INTEGER,
+      allowNull: true,
+      defaultValue: "month",
+    },
+    product_status: {
+      type: DataTypes.STRING(16),
+      defaultValue: "running",
     },
     shop_id: {
       type: DataTypes.INTEGER,
@@ -22,10 +71,6 @@ GoldDepositModel.init(
         model: "shop",
         key: "id",
       },
-    },
-    items: {
-      type: DataTypes.JSON,
-      allowNull: false,
     },
   },
   {
