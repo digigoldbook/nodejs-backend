@@ -41,6 +41,10 @@ UserModel.init(
         max: 255,
       },
     },
+    session_key:{
+      type: DataTypes.STRING,
+      allowNull: true,
+    },
     last_login: {
       type: DataTypes.DATE,
       allowNull: true,

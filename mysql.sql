@@ -8,6 +8,8 @@ create table if not exists users(
     email varchar(100) not null unique,
     password varchar(255) not null,
     contact_no bigint unique not null,
+    session_key varchar(255) null,
+    last_login timestamp default current_timestamp,
     createdAt timestamp default current_timestamp,
     updatedAt timestamp default current_timestamp on update current_timestamp
 );

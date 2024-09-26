@@ -27,7 +27,6 @@ import CategoryAssoc from "./components/category/model/CategoryAssoc.js";
 import apiRoutes from "./config/api_routes.js";
 app.use("/", apiRoutes);
 app.use(errorHandler);
-app.use(cors());
 
 const PORT = process.env.PORT || 5000;
 
