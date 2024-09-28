@@ -11,7 +11,7 @@ GalleryMetaModel.init(
       autoIncrement: true,
       primaryKey: true,
     },
-    post_id: {
+    gallery_id: {
       type: DataTypes.INTEGER,
       allowNull: false,
     },
@@ -26,7 +26,7 @@ GalleryMetaModel.init(
   },
   {
     sequelize: db.sequelize,
-    modelName: "design_gallery_meta",
+    modelName: "gallery_meta",
     freezeTableName: true,
     timestamps: false,
     createdAt: false,

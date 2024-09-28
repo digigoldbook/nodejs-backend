@@ -23,6 +23,10 @@ GalleryModel.init(
       type: DataTypes.STRING,
       allowNull: false,
     },
+    s3_key:{
+      type: DataTypes.STRING,
+      allowNull: false,
+    },
     stock: {
       type: DataTypes.INTEGER,
       allowNull: false,
@@ -35,7 +39,7 @@ GalleryModel.init(
   },
   {
     sequelize: db.sequelize,
-    modelName: "design_gallery",
+    modelName: "gallery",
     freezeTableName: true,
     timestamps: true,
     createdAt: true,
