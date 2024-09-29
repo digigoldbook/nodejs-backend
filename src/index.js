@@ -1,7 +1,6 @@
 import express from "express";
 import bodyParser from "body-parser";
 import morgan from "morgan";
-import cors from 'cors';
 import 'dotenv/config';
 import db from './config/db.js';
 import {errorHandler} from "./components/authentication/helper/AuthHelper.js";

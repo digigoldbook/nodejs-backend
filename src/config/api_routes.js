@@ -20,8 +20,8 @@ apiRoutes.use("/auth", aRoute);
 import uRoute from "../components/users/routes/UserRoute.js";
 apiRoutes.use("/users", uRoute);
 
-import gRouter from "../components/gallery/router/GalleryRoute.js";
-apiRoutes.use("/gallery", gRouter);
+// import gRouter from "../components/gallery/router/GalleryRoute.js";
+// apiRoutes.use("/gallery", gRouter);
 
 import roleRouter from "../components/roles/router/RoleRouter.js";
 apiRoutes.use("/roles", roleRouter);
