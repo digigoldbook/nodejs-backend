@@ -6,12 +6,27 @@ const fetchShops = async (req, res) => {
   try {
     let page = parseInt(req.query.page) || 1;
     let perPage = parseInt(req.query.perPage) || 10;
-
     let sort = req.query.sort || "asc";
+    let owner = req.query.owner; 
 
     let offset = (page - 1) * perPage;
+    
+    let metaWhere = {};
+    if (owner) {
+      metaWhere = {
+        meta_key: 'owner',
+        meta_value: owner,
+      };
+    }
+
     let data = await ShopModel.findAll({
-      include: [{ model: ShopMetaModel, as: "meta" }],
+      include: [
+        {
+          model: ShopMetaModel,
+          as: "meta",
+          where: metaWhere,
+        },
+      ],
       order: [["id", sort.toUpperCase()]],
       limit: perPage,
       offset: offset,
@@ -22,6 +37,7 @@ const fetchShops = async (req, res) => {
         {
           model: ShopMetaModel,
           as: "meta",
+          where: metaWhere,
         },
       ],
     });
@@ -33,6 +49,7 @@ const fetchShops = async (req, res) => {
       perPage: perPage,
       totalCount: totalCount,
     };
+    
     return res.status(200).json({
       status: 200,
       data: data,
@@ -45,6 +62,7 @@ const fetchShops = async (req, res) => {
     });
   }
 };
+
 
 const addShop = async (req, res) => {
   const t = await db.sequelize.transaction();
@@ -93,7 +111,6 @@ const addShop = async (req, res) => {
     });
   }
 };
-
 
 const deleteShop = async (req, res) => {
   const t = await db.sequelize.transaction();

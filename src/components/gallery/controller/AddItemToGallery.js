@@ -25,7 +25,7 @@ const generateUniqueFileName = (originalName) => {
 };
 
 const uploadFileAndCreatePost = async (req, res) => {
-  const { post_title, stock, description, folderName, user_id } = req.body; // Include user_id
+  const { post_title, stock, description, folderName, user_id } = req.body;
 
   let post_slug = slugs(post_title);
 
