@@ -5,18 +5,18 @@ const createCashDeposit = async (req, res) => {
     let {
       amount,
       rate,
-      time,
-      time_unit,
+      start_date,
+      end_date,
       customer_name,
       customer_contact,
       shop_id,
     } = req.body;
 
-    let item = await CashDeposiModel.create({
+    let item = await CashDepositModel.create({
       amount,
       rate,
-      time,
-      time_unit,
+      start_date,
+      end_date,
       customer_name,
       customer_contact,
       shop_id,
@@ -41,13 +41,35 @@ const createCashDeposit = async (req, res) => {
   }
 };
 
+
 const fetchItems = async (req, res) => {
   try {
-    let items = await CashDeposiModel.findAll();
+    let page = parseInt(req.query.page) || 1;
+    let perPage = parseInt(req.query.perPage) || 10;
+    let sort = req.query.sort || "asc";
+
+    let offset = (page - 1) * perPage;
+
+    let data = await CashDeposiModel.findAll({
+      order: [["id", sort.toUpperCase()]],
+      limit: perPage,
+      offset: offset,
+    });
+
+    let totalCount = await CashDeposiModel.count();
+
+    let totalPages = Math.ceil(totalCount / perPage);
+    let pagination = {
+      currentPage: page,
+      totalPages: totalPages,
+      perPage: perPage,
+      totalCount: totalCount,
+    };
 
     return res.status(200).json({
       status: 200,
-      items,
+      data,
+      pagination: pagination,
     });
   } catch (error) {
     return res.status(500).json({
@@ -85,7 +107,7 @@ const deleteCashDeposit = async (req, res) => {
 
 const editCashDeposit = async (req, res) => {
   try {
-    const { id } = req.params; 
+    const { id } = req.params;
     const {
       amount,
       rate,

@@ -19,14 +19,13 @@ CashDepositModel.init(
       type: DataTypes.DECIMAL,
       allowNull: false,
     },
-    time: {
-      type: DataTypes.INTEGER,
+    start_date: {
+      type: DataTypes.DATE,
       allowNull: false,
     },
-    time_unit: {
-      type: DataTypes.STRING,
+    end_date: {
+      type: DataTypes.DATE,
       allowNull: false,
-      defaultValue: "month",
     },
     customer_name: {
       type: DataTypes.STRING,
@@ -40,7 +39,7 @@ CashDepositModel.init(
       type: DataTypes.INTEGER,
       allowNull: false,
       references: {
-        model: "shop", 
+        model: "shop",
         key: "id",
       },
       onDelete: "cascade",
