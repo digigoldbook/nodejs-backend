@@ -4,15 +4,19 @@ const depositRecord = async (req, res) => {
   try {
     let page = parseInt(req.query.page, 10) || 1;
     let limit = parseInt(req.query.limit, 10) || 10;
-    let offset = (page - 1) * limit;
     let sort = req.query.sort || "asc";
-    let userId = parseInt(req.query.userId, 10);
+    let shopId = parseInt(req.query.shop_id);
+
+    let offset = (page - 1) * limit;
+    let whereClause = shopId ? { shop_id: shopId } : {};
+
 
     // Fetch records with pagination
     const records = await GoldDepositModel.findAll({
       limit,
       offset,
       order: [["id", sort.toUpperCase()]],
+      where: whereClause,
     });
 
     // Filter the items by userId if provided
@@ -23,7 +27,9 @@ const depositRecord = async (req, res) => {
       };
     });
 
-    const totalCount = await GoldDepositModel.count();
+    const totalCount = await GoldDepositModel.count({
+      where: whereClause,
+    });
 
     const totalPages = Math.ceil(totalCount / limit);
 

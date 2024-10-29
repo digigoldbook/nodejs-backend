@@ -12,7 +12,7 @@ const createCashDeposit = async (req, res) => {
       shop_id,
     } = req.body;
 
-    let item = await CashDepositModel.create({
+    let item = await CashDeposiModel.create({
       amount,
       rate,
       start_date,
@@ -47,16 +47,21 @@ const fetchItems = async (req, res) => {
     let page = parseInt(req.query.page) || 1;
     let perPage = parseInt(req.query.perPage) || 10;
     let sort = req.query.sort || "asc";
+    let shopId = parseInt(req.query.shop_id);
 
     let offset = (page - 1) * perPage;
+    let whereClause = shopId ? { shop_id: shopId } : {};
 
     let data = await CashDeposiModel.findAll({
+      where: whereClause,
       order: [["id", sort.toUpperCase()]],
       limit: perPage,
       offset: offset,
     });
 
-    let totalCount = await CashDeposiModel.count();
+    let totalCount = await CashDeposiModel.count({
+      where: whereClause,
+    });
 
     let totalPages = Math.ceil(totalCount / perPage);
     let pagination = {
@@ -116,7 +121,7 @@ const editCashDeposit = async (req, res) => {
       customer_name,
       customer_contact,
       shop_id,
-    } = req.body; // Get updated data from request body
+    } = req.body;
 
     // Find the existing cash deposit record by id
     let cashDeposit = await CashDeposiModel.findByPk(id);

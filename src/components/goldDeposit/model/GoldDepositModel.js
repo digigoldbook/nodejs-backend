@@ -51,14 +51,13 @@ GoldDepositModel.init(
       type: DataTypes.DECIMAL(5, 2),
       defaultValue: 36.0,
     },
-    duration: {
-      type: DataTypes.INTEGER,
+    start_date: {
+      type: DataTypes.DATE,
       allowNull: false,
     },
-    duration_unit: {
-      type: DataTypes.INTEGER,
-      allowNull: true,
-      defaultValue: "month",
+    end_date: {
+      type: DataTypes.DATE,
+      allowNull: false,
     },
     product_status: {
       type: DataTypes.STRING(16),

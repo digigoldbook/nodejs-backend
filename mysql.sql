@@ -97,9 +97,9 @@ CREATE TABLE IF NOT EXISTS gold_deposit_record (
     item_count int not null,
     product_amount decimal(10,3) not null,
     product_rate decimal(5,2) default 36,
-    duration int not null,
-    duration_unit varchar(16) default "month";
     product_status varchar(16) default "running",
+    start_date DATE NOT NULL,
+    end_date DATE NOT NULL,
     shop_id int not null,
     createdAt TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
     updatedAt TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
