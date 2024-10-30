@@ -67,11 +67,45 @@ create table if not exists shop_meta(
 
 create table if not exists shop_worker(
     id int primary key auto_increment not null,
-    shop_id int not null,
+    wrk_unique_id varchar(100) not null,
+    wrk_name varchar(255) not null,
+    wrk_contact bigint not null,
+    wrk_address varchar(255) not null,
+    wrk_department varchar(50) not null,
+    wrk_opening_status varchar(50) not null,
+    createdAt timestamp default current_timestamp,
+    updatedAt timestamp default current_timestamp on update current_timestamp
+);
+
+create table if not exists shop_worker_meta(
+    meta_id int primary key auto_increment not null,
     worker_id int not null,
-    foreign key(shop_id) references shop(id) on delete cascade,
-    foreign key(worker_id) references users(id) on delete cascade,
-    createdAt timestamp default current_timestamp
+    meta_key varchar(255) not null,
+    meta_value varchar(255) not null,
+    foreign key(worker_id) references shop_worker(id) on delete cascade
+);
+
+create table if not exists shop_worker_record{
+    id int primary key auto_increment not null,
+    given_date DATE NOT NULL,
+    end_date DATE NOT NULL,
+    unique_code varchar(100) not null,
+    given_net_weight decimal(5, 2) not null,
+    return_product_name varchar(255) not null,
+    product_weight decimal(5, 2) not null,
+    wastage_weight decimal(5, 2) not null,
+    given_cash decimal(6, 2) not null,
+    result decimal(6, 2) not null,
+    createdAt timestamp default current_timestamp,
+    updatedAt timestamp default current_timestamp on update current_timestamp
+}
+
+create table if not exists shop_worker_record_meta(
+    meta_id int primary key auto_increment not null,
+    record_id int not null,
+    meta_key varchar(255) not null,
+    meta_value varchar(255) not null,
+    foreign key(record_id) references shop_worker_record(id) on delete cascade
 );
 
 create table if not exists feedback(

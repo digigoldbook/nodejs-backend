@@ -45,7 +45,7 @@ const fetchShops = async (req, res) => {
     let totalPages = Math.ceil(totalCount / perPage);
     let pagination = {
       currentPage: page,
-      totalPages: totalPages,
+      totalPages,
       perPage: perPage,
       totalCount: totalCount,
     };

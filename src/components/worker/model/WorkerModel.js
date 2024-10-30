@@ -11,22 +11,34 @@ WorkerModel.init(
       primaryKey: true,
       autoIncrement: true,
     },
+    wrk_unique_id: {
+      type: DataTypes.STRING,
+      allowNull: false,
+    },
     wrk_name: {
       type: DataTypes.STRING,
       allowNull: false,
     },
     wrk_contact: {
-      type: DataTypes.STRING,
+      type: DataTypes.BIGINT,
       allowNull: false,
     },
     wrk_address: {
       type: DataTypes.STRING,
       allowNull: false,
     },
+    wrk_department: {
+      type: DataTypes.STRING,
+      allowNull: false,
+    },
+    wrk_opening_status: {
+      type: DataTypes.STRING,
+      allowNull: false,
+    },
   },
   {
     sequelize: db.sequelize,
-    modelName: "worker",
+    modelName: "shop_worker",
     freezeTableName: true,
     timestamps: true,
     createdAt: true,

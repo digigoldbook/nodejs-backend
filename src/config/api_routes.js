@@ -32,6 +32,9 @@ apiRoutes.use("/category", catRoute);
 import workerRoute from "../components/worker/router/WorkerRouter.js";
 apiRoutes.use("/worker", workerRoute);
 
+import workerRecordRoute from "../components/worker_record/router/WorkerRecordRoute.js";
+apiRoutes.use("/worker-record", workerRecordRoute);
+
 import sRoute from "../components/shop/router/ShopRouter.js";
 apiRoutes.use("/shops", sRoute);
 

@@ -1,11 +1,11 @@
 import { DataTypes, Model } from "sequelize";
 
-import WorkerModel from "./WorkerModel.js";
+import ShopWorkerRecord from "./worker_record_model.js";
 import db from "../../../config/db.js";
 
-class WorkerMetaModel extends Model {}
+class ShopWorkerRecordMeta extends Model {}
 
-WorkerMetaModel.init(
+ShopWorkerRecordMeta.init(
   {
     meta_id: {
       type: DataTypes.INTEGER,
@@ -13,11 +13,11 @@ WorkerMetaModel.init(
       autoIncrement: true,
       primaryKey: true,
     },
-    worker_id: {
+    record_id: {
       type: DataTypes.INTEGER,
       allowNull: false,
       references: {
-        model: WorkerModel,
+        model: ShopWorkerRecord,
         key: 'id'
       },
     },
@@ -32,12 +32,10 @@ WorkerMetaModel.init(
   },
   {
     sequelize: db.sequelize,
-    modelName: "shop_worker_meta",
+    modelName: "shop_worker_record_meta",
     freezeTableName: true,
     timestamps: false,
-    createdAt: false,
-    updatedAt: false,
   }
 );
 
-export default WorkerMetaModel;
+export default ShopWorkerRecordMeta;

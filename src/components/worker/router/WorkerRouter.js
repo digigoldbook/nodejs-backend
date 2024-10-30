@@ -1,11 +1,13 @@
 import express from "express";
 
-import WorkerController from "../controller/WorkerController.js";
+import createWorker from "../controller/CreateWorkerController.js";
+import fetchWorker from "../controller/FetchWorkerController.js";
+import deleteWorker from "../controller/DeleteWorkerController.js";
 
 const wRouter = express.Router();
 
-wRouter.post("/", WorkerController.createWorker);
-wRouter.get("/", WorkerController.fetchWorker);
-wRouter.delete("/", WorkerController.deleteWorker);
+wRouter.post("/", createWorker);
+wRouter.get("/", fetchWorker);
+wRouter.delete("/", deleteWorker);
 
 export default wRouter;
