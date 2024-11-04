@@ -6,20 +6,33 @@ const fetchWorker = async (req, res) => {
     let page = parseInt(req.query.page) || 1;
     let perPage = parseInt(req.query.perPage) || 10;
     let sort = req.query.sort || "desc";
+    let workerId = parseInt(req.query.worker_id);
 
     let offset = (page - 1) * perPage;
 
+    // Define include clause with conditionally applied where for worker_id
+    const includeMeta = {
+      model: ShopWorkerRecordMeta,
+      as: "meta",
+      required: true,
+      where: workerId ? { meta_key: "worker_id", meta_value: workerId } : {},
+    };
+
+    // Fetch workers with pagination, sorting, and filtering by worker_id
     const workers = await ShopWorkerRecord.findAll({
-      include: [{ model: ShopWorkerRecordMeta, as: "meta" }],
+      include: [includeMeta],
       order: [["id", sort.toUpperCase()]],
       limit: perPage,
       offset: offset,
     });
 
-    let totalCount = await ShopWorkerRecord.count();
+    // Count total records with worker_id filter if applied
+    const totalCount = await ShopWorkerRecord.count({
+      include: [includeMeta],
+    });
 
+    // Calculate pagination details
     let totalPages = Math.ceil(totalCount / perPage);
-
     let pagination = {
       currentPage: page,
       totalPages,

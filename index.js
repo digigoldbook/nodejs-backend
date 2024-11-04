@@ -16,6 +16,7 @@ app.use(morgan('tiny'));
 
 // create connection of database
 db.authenticate();
+import "./src/components/worker_record/model/worker_record_association.js";
 import WorkerAssociation from "./src/components/worker/model/WorkerAssociation.js";
 import ShopAssociation from "./src/components/shop/model/ShopAssociation.js";
 import GalleryAssoc from "./src/components/gallery/model/GalleryAssoc.js";
