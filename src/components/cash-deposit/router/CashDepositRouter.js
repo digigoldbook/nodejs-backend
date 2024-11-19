@@ -9,5 +9,6 @@ const upload = multer();
 cashRouter.get("/", createCashDeposit.fetchItems);
 cashRouter.post("/", upload.none(), createCashDeposit.createCashDeposit);
 cashRouter.delete("/", createCashDeposit.deleteCashDeposit);
+cashRouter.put("/", createCashDeposit.editCashDeposit);
 
 export default cashRouter;

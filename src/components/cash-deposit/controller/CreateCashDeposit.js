@@ -112,52 +112,51 @@ const deleteCashDeposit = async (req, res) => {
 
 const editCashDeposit = async (req, res) => {
   try {
-    const { id } = req.params;
+    const { id } = req.query.itemId;
     const {
       amount,
       rate,
-      time,
-      time_unit,
+      start_date,
+      end_date,
       customer_name,
       customer_contact,
       shop_id,
-    } = req.body;
+    } = req.body; 
 
-    // Find the existing cash deposit record by id
-    let cashDeposit = await CashDeposiModel.findByPk(id);
+    // Find the record by ID
+    const item = await CashDeposiModel.findByPk(id);
 
-    if (!cashDeposit) {
+    if (!item) {
       return res.status(404).json({
         status: 404,
-        message: "Cash deposit not found",
+        message: "Item not found",
       });
     }
 
-    // Update the cash deposit with new values
-    cashDeposit.amount = amount || cashDeposit.amount;
-    cashDeposit.rate = rate || cashDeposit.rate;
-    cashDeposit.time = time || cashDeposit.time;
-    cashDeposit.time_unit = time_unit || cashDeposit.time_unit;
-    cashDeposit.customer_name = customer_name || cashDeposit.customer_name;
-    cashDeposit.customer_contact =
-      customer_contact || cashDeposit.customer_contact;
-    cashDeposit.shop_id = shop_id || cashDeposit.shop_id;
-
-    // Save the updated record to the database
-    await cashDeposit.save();
+    // Update the record with new data
+    await item.update({
+      amount,
+      rate,
+      start_date,
+      end_date,
+      customer_name,
+      customer_contact,
+      shop_id,
+    });
 
     return res.status(200).json({
       status: 200,
-      message: "Cash deposit updated successfully",
-      cashDeposit,
+      message: "Item updated successfully",
+      item,
     });
   } catch (error) {
     return res.status(500).json({
       status: 500,
-      message: `Error: ${error.message}`,
+      message: `Error: ${error}`,
     });
   }
 };
+
 
 export default {
   createCashDeposit,

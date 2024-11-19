@@ -12,4 +12,5 @@ ShopWorkerRecordMeta.belongsTo(ShopWorkerRecord, {
   as: "record",
 });
 
+
 export { ShopWorkerRecord, ShopWorkerRecordMeta };

@@ -22,6 +22,17 @@ create table if not exists user_meta(
     foreign key(user_id) references users(id) on delete cascade
 );
 
+CREATE TABLE user_devices (
+    id SERIAL PRIMARY KEY,          
+    user_id INT NOT NULL,           
+    device_name VARCHAR(255),      
+    ip_address VARCHAR(45) NOT NULL,
+    refresh_token VARCHAR(255) NOT NULL, 
+    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP, 
+    updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+    FOREIGN KEY (user_id) REFERENCES users(id) ON DELETE CASCADE
+);
+
 create table if not exists role(
     id int primary key auto_increment not null,
     role_name varchar(255) not null,

@@ -1,5 +1,6 @@
 import jwt from "jsonwebtoken";
 
+import UserDeviceModel from "../../users/model/UserDeviceModel.js";
 import UserModel from "../../users/model/UserModel.js";
 
 const generateToken = async (req, res) => {
@@ -9,11 +10,24 @@ const generateToken = async (req, res) => {
     return res.status(403).json({ message: "Refresh token is required" });
   }
 
-  let user = await UserModel.findOne({ where: { session_key: refreshToken } });
+  // Find the user device associated with the provided refresh token
+  let userDevice = await UserDeviceModel.findOne({
+    where: { refresh_token: refreshToken },
+  });
 
-  if (!user) {
+  if (!userDevice) {
     return res.status(403).json({ message: "Invalid refresh token" });
   }
+
+  // Fetch the associated user information
+  let user = await UserModel.findOne({
+    where: { id: userDevice.user_id },
+  });
+
+  if (!user) {
+    return res.status(403).json({ message: "User not found" });
+  }
+
 
   let newAccessToken = jwt.sign(
     {

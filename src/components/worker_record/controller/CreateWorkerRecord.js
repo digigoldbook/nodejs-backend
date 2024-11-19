@@ -1,12 +1,12 @@
 import ShopWorkerRecord from "../model/worker_record_model.js";
 import ShopWorkerRecordMeta from "../model/worker_record_meta_model.js";
+import { v4 as uuidv4 } from "uuid";
 
 const createWorkerRecord = async (req, res) => {
   try {
     const {
       given_date,
       end_date,
-      unique_code,
       given_net_weight,
       return_product_name,
       product_weight,
@@ -19,7 +19,7 @@ const createWorkerRecord = async (req, res) => {
     const workerRecord = await ShopWorkerRecord.create({
       given_date,
       end_date,
-      unique_code,
+      unique_code: uuidv4(),
       given_net_weight,
       return_product_name,
       product_weight,

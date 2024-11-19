@@ -10,15 +10,14 @@ const fetchWorker = async (req, res) => {
 
     let offset = (page - 1) * perPage;
 
-    // Define include clause with conditionally applied where for worker_id
+    // Define include clause for fetching all meta records without filtering by worker_id
     const includeMeta = {
       model: ShopWorkerRecordMeta,
       as: "meta",
-      required: true,
-      where: workerId ? { meta_key: "worker_id", meta_value: workerId } : {},
+      required: false,  // Set to false to include records even if there's no related meta
     };
 
-    // Fetch workers with pagination, sorting, and filtering by worker_id
+    // Fetch workers with pagination, sorting, and all associated meta records
     const workers = await ShopWorkerRecord.findAll({
       include: [includeMeta],
       order: [["id", sort.toUpperCase()]],
@@ -26,10 +25,8 @@ const fetchWorker = async (req, res) => {
       offset: offset,
     });
 
-    // Count total records with worker_id filter if applied
-    const totalCount = await ShopWorkerRecord.count({
-      include: [includeMeta],
-    });
+    // Count total records without applying a meta filter
+    const totalCount = await ShopWorkerRecord.count();
 
     // Calculate pagination details
     let totalPages = Math.ceil(totalCount / perPage);
