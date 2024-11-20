@@ -24,7 +24,7 @@ const updateUserProfile = async (req, res) => {
     const { fullname, email, contact_no } = value;
 
     // Assume user ID is available in `req.user` after authentication middleware
-    const userId = req.user.id;
+    const userId = req.query.user_id;
 
     // Check if the user exists
     const user = await UserModel.findByPk(userId);

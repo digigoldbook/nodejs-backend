@@ -53,4 +53,40 @@ const fetchWorker = async (req, res) => {
   }
 };
 
-export default fetchWorker;
+const fetchWorkerById = async (req, res) => {
+  try {
+    const id  = req.query.worker_id; // Get the worker's ID from route parameters
+
+    // Fetch the worker by primary key, including metadata
+    const worker = await WorkerModel.findByPk(id, {
+      include: [
+        {
+          model: WorkerMetaModel,
+          as: "meta",
+        },
+      ],
+    });
+
+    // If worker is not found, return a 404 response
+    if (!worker) {
+      return res.status(404).json({
+        status: 404,
+        message: "Worker not found",
+      });
+    }
+
+    // Return the worker's data
+    return res.status(200).json({
+      status: 200,
+      data: worker,
+    });
+  } catch (error) {
+    return res.status(500).json({
+      status: 500,
+      message: `Server error: ${error.message}`,
+    });
+  }
+};
+
+
+export default {fetchWorker, fetchWorkerById};
