@@ -51,6 +51,7 @@ const signInUser = async (req, res) => {
                     userId: user.id,
                     fullname: user.fullname,
                     email: user.email,
+                    contact: user.contact_no,
                     role,
                     clientIp,
                     deviceName, 

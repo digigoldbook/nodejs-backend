@@ -1,24 +1,28 @@
-import { v4 as uuidv4 } from "uuid";
-
-import WorkerMetaModel from "../model/WorkerMetaModel.js";
 import WorkerModel from "../model/WorkerModel.js";
 import db from "../../../config/db.js";
 
 const updateWorker = async (req, res) => {
   const t = await db.sequelize.transaction();
   try {
-    const { id } = req.params;
+    const workerId = req.query.worker_id;
     const {
       wrk_name,
       wrk_contact,
       wrk_address,
       wrk_department,
       wrk_opening_status,
-      meta,
     } = req.body;
 
+    // Validate required fields
+    if (!workerId) {
+      return res.status(400).json({
+        status: 400,
+        message: "worker_id is required in query parameters",
+      });
+    }
+
     // Update main worker data
-    const worker = await WorkerModel.update(
+    const [updatedRowCount] = await WorkerModel.update(
       {
         wrk_name,
         wrk_contact,
@@ -26,38 +30,27 @@ const updateWorker = async (req, res) => {
         wrk_department,
         wrk_opening_status,
       },
-      { where: { id }, transaction: t }
+      { where: { id: workerId }, transaction: t }
     );
 
-    if (!worker[0]) {
+    if (!updatedRowCount) {
       await t.rollback();
-      return res.status(404).json({ status: 404, message: "Worker not found" });
+      return res
+        .status(404)
+        .json({ status: 404, message: "Worker not found or no changes made" });
     }
 
-    // Update or create metadata
-    await Promise.all(
-      meta.map(async (m) => {
-        await WorkerMetaModel.upsert(
-          {
-            worker_id: id,
-            meta_key: m.meta_key,
-            meta_value: m.meta_value,
-          },
-          { transaction: t }
-        );
-      })
-    );
-
-    await t.commit();
+    await t.commit(); // Commit transaction
     return res.status(200).json({
       status: 200,
       message: "Worker updated successfully",
     });
   } catch (error) {
-    await t.rollback();
+    await t.rollback(); // Rollback transaction on error
+    console.error("Error in updateWorker:", error);
     return res.status(500).json({
       status: 500,
-      message: `Server error: ${error}`,
+      message: `Server error: ${error.message}`,
     });
   }
 };
