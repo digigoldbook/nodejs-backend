@@ -3,6 +3,8 @@ import multer from "multer";
 import UserController from "../controllers/UserController.js";
 import UpdateProfile from "../controllers/UpdateProfile.js";
 
+import { deleteUser } from "../controllers/DeleteUserController.js";
+
 import {
   authenticateToken,
   authorizeRoles,
@@ -34,7 +36,7 @@ uRoute.delete(
   "/delete-user",
   authenticateToken,
   authorizeRoles(["admin"]),
-  UserController.deleteUser
+  deleteUser
 );
 
 export default uRoute;

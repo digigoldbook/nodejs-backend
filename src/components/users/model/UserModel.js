@@ -41,9 +41,9 @@ UserModel.init(
         max: 255,
       },
     },
-    last_login: {
-      type: DataTypes.DATE,
-      allowNull: true,
+    role: {
+      type: DataTypes.STRING,
+      defaultValue: "subscriber",
     },
   },
   {

@@ -26,8 +26,6 @@ const fetchUsers = async (req, res) => {
       include: [
         {
           model: UserMetaModel,
-          as: "meta",
-          where: role ? { meta_key: "role", meta_value: role } : {}, // Add role filter
         },
       ],
       order: [["id", sort.toUpperCase()]],
@@ -75,39 +73,6 @@ const fetchUsers = async (req, res) => {
     return res.status(500).json({
       status: 500,
       error: error.message || "Internal Server Error",
-    });
-  }
-};
-
-const deleteUser = async (req, res) => {
-  let userId = req.query.userId;
-  const transaction = await db.sequelize.transaction();
-  try {
-    let user = await UserModel.findByPk(userId, { transaction });
-    if (!user) {
-      return res.status(404).json({
-        status: 404,
-        message: "User not found",
-      });
-    }
-
-    await UserMetaModel.destroy({
-      where: { user_id: userId },
-      transaction,
-    });
-
-    await user.destroy({ transaction });
-
-    await transaction.commit();
-
-    return res.status(200).json({
-      status: 200,
-      message: "Users and associated records deleted successfully",
-    });
-  } catch (err) {
-    return res.status(500).json({
-      status: 500,
-      error: err,
     });
   }
 };
@@ -249,4 +214,4 @@ const updateUserRole = async (req, res) => {
   }
 };
 
-export default { fetchUsers, updateUserRole, passwordReset, deleteUser };
+export default { fetchUsers, updateUserRole, passwordReset };

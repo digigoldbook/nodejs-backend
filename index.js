@@ -1,9 +1,11 @@
 import express from "express";
 import bodyParser from "body-parser";
 import morgan from "morgan";
-import 'dotenv/config';
-import db from './src/config/db.js';
-import {errorHandler} from "./src/components/authentication/helper/AuthHelper.js";
+import cookieParser from "cookie-parser";
+import cors from "cors";
+import "dotenv/config";
+import db from "./src/config/db.js";
+import { errorHandler } from "./src/components/authentication/helper/AuthHelper.js";
 
 const app = express();
 
@@ -11,8 +13,11 @@ const app = express();
  * use of middleware
  */
 app.use(bodyParser.json());
-app.use(bodyParser.urlencoded({extended: false}));
-app.use(morgan('tiny'));
+app.use(bodyParser.urlencoded({ extended: false }));
+app.use(morgan("tiny"));
+app.use(cookieParser());
+app.use(cors());
+app.options("*", cors);
 
 // create connection of database
 db.authenticate();
@@ -31,16 +36,16 @@ app.use(errorHandler);
 const PORT = process.env.PORT || 5000;
 
 app.listen(PORT, () => {
-    console.log(`Server is loading at ${PORT}`)
+  console.log(`Server is loading at ${PORT}`);
 });
 
 import redis from "redis";
 
 let redisClient = redis.createClient({
-  host: 'localhost', // or your Redis server
+  host: "localhost", // or your Redis server
   port: 6379, // default Redis port
 });
 
-redisClient.on('error', (err) => {
-  console.error('Redis error: ', err);
+redisClient.on("error", (err) => {
+  console.error("Redis error: ", err);
 });
