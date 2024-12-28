@@ -45,6 +45,11 @@ UserModel.init(
       type: DataTypes.STRING,
       defaultValue: "subscriber",
     },
+    user_code: {
+      type: DataTypes.STRING,
+      allowNull: false,
+      unique: true,
+    },
   },
   {
     sequelize: db.sequelize,

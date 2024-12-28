@@ -1,4 +1,5 @@
 import Joi from "joi";
+import { v4 as uuidv4 } from "uuid";
 
 import UserMetaModel from "../../users/model/UserMetaModel.js";
 import UserModel from "../../users/model/UserModel.js";
@@ -13,6 +14,7 @@ const signUpUser = async (req, res) => {
       email: Joi.string().email().required(),
       password: Joi.string().min(6).required(),
       contact_no: Joi.number().required(),
+      role: Joi.string().optional(),
       meta: Joi.array()
         .items(
           Joi.object({
@@ -33,11 +35,13 @@ const signUpUser = async (req, res) => {
       });
     }
 
-    let { fullname, email, password, contact_no, meta } = value;
+    let { fullname, email, password, contact_no, role, meta } = value;
     password = PasswordHelper.encryptPassword(password);
 
+    let user_code = uuidv4();
+
     let user = await UserModel.create(
-      { fullname, email, password, contact_no },
+      { fullname, email, password, contact_no, role, user_code },
       { transaction }
     );
 

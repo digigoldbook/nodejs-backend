@@ -6,13 +6,37 @@ import slugs from "slugs";
 // Fetch all categories with their metadata
 export const getCategoriesWithMeta = async (req, res) => {
   try {
-    const categories = await CategoryModel.findAll({
+    let page = parseInt(req.query.page) || 1;
+    let limit = parseInt(req.query.limit) || 10;
+    let sort = req.query.sort || "asc";
+
+    let offset = (page - 1) * limit;
+
+    const items = await CategoryModel.findAll({
       include: {
         model: CategoryMetaModel,
         as: "meta",
       },
+      order: [["id", sort.toUpperCase()]],
+      limit: limit,
+      offset: offset,
     });
-    res.status(200).json(categories);
+
+    const totalCount = await CategoryModel.count({});
+
+    const totalPages = Math.ceil(totalCount / limit);
+    const pagination = {
+      currentPage: page,
+      totalPages: totalPages,
+      limit,
+      totalCount,
+    };
+
+    res.status(200).json({
+      status: 200,
+      items,
+      pagination,
+    });
   } catch (error) {
     res.status(500).json({ message: "Failed to fetch categories", error });
   }

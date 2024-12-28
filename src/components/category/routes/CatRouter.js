@@ -12,14 +12,14 @@ const upload = multer();
 
 catRoute.get("/", CategoryController.getCategoriesWithMeta);
 catRoute.post(
-  "/add-category",
+  "/",
   authenticateToken,
   authorizeRoles(["admin"]),
   upload.none(),
   CategoryController.addCategory
 );
 catRoute.post(
-  "/add-meta-category",
+  "/add-sub-category",
   authenticateToken,
   authorizeRoles(["admin"]),
   upload.none(),

@@ -2,19 +2,32 @@ import FeedbackModel from "../model/FeedbackModel.js";
 
 const fetchItems = async (req, res) => {
   try {
-    let page = req.query.page || 1;
-    let limit = req.query.limit || 10;
+    let page = parseInt(req.query.page) || 1;
+    let limit = parseInt(req.query.limit) || 10;
+    let sort = req.query.sort || "asc";
 
     let offset = (page - 1) * limit;
 
     let data = await FeedbackModel.findAll({
+      order: [["id", sort.toUpperCase()]],
       limit: limit,
       offset: offset,
     });
 
+    const totalCount = await FeedbackModel.count({});
+
+    const totalPages = Math.ceil(totalCount / limit);
+    const pagination = {
+      currentPage: page,
+      totalPages: totalPages,
+      limit,
+      totalCount,
+    };
+
     return res.status(200).json({
       status: 200,
       data,
+      pagination
     });
   } catch (error) {
     return res.status(500).json({

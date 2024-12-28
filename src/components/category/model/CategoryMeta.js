@@ -7,7 +7,7 @@ class CategoryMetaModel extends Model {}
 
 CategoryMetaModel.init(
   {
-    id: {
+    meta_id: {
       type: DataTypes.INTEGER,
       allowNull: false,
       autoIncrement: true,

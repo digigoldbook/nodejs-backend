@@ -64,7 +64,7 @@ export const fetchUsers = async (req, res) => {
     return res.status(200).json({
       status: 200,
       data: formattedUsers,
-      pagination: pagination,
+      pagination,
     });
   } catch (error) {
     return res.status(500).json({
