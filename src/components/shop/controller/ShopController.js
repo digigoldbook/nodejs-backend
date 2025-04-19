@@ -1,3 +1,5 @@
+import { v4 as uuid } from "uuid";
+
 import ShopModel from "../model/ShopModel.js";
 import ShopMetaModel from "../model/ShopMetaModel.js";
 import db from "../../../config/db.js";
@@ -69,9 +71,12 @@ const addShop = async (req, res) => {
   try {
     let { shop_name, shop_address, shop_contact, shop_reg_no, meta } = req.body;
 
+    let shop_code = uuid(); // Generate a unique shop code
+
     // Create the shop in the ShopModel table
     let shop = await ShopModel.create(
       {
+        shop_code,
         shop_name,
         shop_address,
         shop_contact,

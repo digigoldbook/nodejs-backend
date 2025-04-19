@@ -11,6 +11,11 @@ ShopModel.init(
       autoIncrement: true,
       primaryKey: true,
     },
+    shop_code: {
+      type: DataTypes.STRING,
+      allowNull: false,
+      unique: true,
+    },
     shop_name: {
       type: DataTypes.STRING,
       allowNull: false,

@@ -22,6 +22,10 @@
             "meta_value": "Dhungedhara"
         },
         {
+            "meta_key": "shop_id",
+            "meta_value": "[1]"
+        },
+        {
             "meta_key": "department",
             "meta_value": "random"
         },
