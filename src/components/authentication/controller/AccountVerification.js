@@ -37,12 +37,12 @@ export const resendActivationCode = async (req, res) => {
     return res.status(404).json({ message: "User not found" });
   }
 
-  if (user.is_verified) {
+  if (user.is_verified === 1) {
     return res.status(400).json({ message: "Account already verified" });
   }
 
   const newCode = Math.floor(100000 + Math.random() * 900000).toString();
-  const newExpiry = new Date(Date.now() + 1 * 60 * 1000); // 5 min from now
+  const newExpiry = new Date(Date.now() + 5 * 60 * 1000); // 5 min from now
 
   user.activation_code = newCode;
   user.token_expires_at = newExpiry;

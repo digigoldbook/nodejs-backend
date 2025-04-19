@@ -28,7 +28,7 @@ const signUpUser = async (req, res) => {
     const activationCode = Math.floor(
       100000 + Math.random() * 900000
     ).toString();
-    const tokenExpiresAt = new Date(Date.now() + 1 * 60 * 1000 ); // 5 min from now
+    const tokenExpiresAt = new Date(Date.now() + 5 * 60 * 1000 ); // 5 min from now
 
     let user_code = uuidv4();
 
