@@ -50,6 +50,19 @@ UserModel.init(
       allowNull: false,
       unique: true,
     },
+    is_verified: {
+      type: DataTypes.TINYINT,
+      allowNull: true,
+      defaultValue: 0,
+    },
+    activation_code: {
+      type: DataTypes.INTEGER,
+      allowNull: true,
+    },
+    token_expires_at: {
+      type: DataTypes.TIME,
+      allowNull: true,
+    },
   },
   {
     sequelize: db.sequelize,

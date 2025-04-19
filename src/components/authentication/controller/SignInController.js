@@ -39,6 +39,11 @@ const signInUser = async (req, res) => {
         message: `User not found for ${email}`,
       });
     }
+    
+    if (user.is_verified === 0)
+      return res.status(200).json({
+        message: "Account is not verified",
+      });
 
     let isPasswordTrue = PasswordHelper.decryptPassword(
       password,

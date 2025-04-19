@@ -9,7 +9,10 @@ CREATE TABLE IF NOT EXISTS users (
     password VARCHAR(255) NOT NULL,
     contact_no BIGINT UNIQUE NOT NULL,
     role varchar(255) default "subscriber",
+    is_verified TINYINT(1) DEFAULT 0,
+    activation_code int not null,
     user_code varchar(255) not null unique,
+    token_expires_at TIMESTAMP NULL,
     createdAt TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
     updatedAt TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP
 );

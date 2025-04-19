@@ -1,31 +1,17 @@
-import Joi from "joi";
 import { v4 as uuidv4 } from "uuid";
 
 import UserMetaModel from "../../users/model/UserMetaModel.js";
 import UserModel from "../../users/model/UserModel.js";
 import PasswordHelper from "../helper/PasswordHelper.js";
 import db from "../../../config/db.js";
+import { registerValidation } from "../schema/register.schema.js";
+import sendRegistrationEmail from "../helper/EmailHelper.js";
+import { token } from "morgan";
 
 const signUpUser = async (req, res) => {
   const transaction = await db.sequelize.transaction();
   try {
-    const signUpSchema = Joi.object({
-      fullname: Joi.string().min(3).max(50).required(),
-      email: Joi.string().email().required(),
-      password: Joi.string().min(6).required(),
-      contact_no: Joi.number().required(),
-      role: Joi.string().optional(),
-      meta: Joi.array()
-        .items(
-          Joi.object({
-            meta_key: Joi.string().required(),
-            meta_value: Joi.string().required(),
-          })
-        )
-        .optional(),
-    });
-
-    const { error, value } = signUpSchema.validate(req.body);
+    const { error, value } = registerValidation.validate(req.body);
 
     if (error) {
       await transaction.rollback();
@@ -38,10 +24,25 @@ const signUpUser = async (req, res) => {
     let { fullname, email, password, contact_no, role, meta } = value;
     password = PasswordHelper.encryptPassword(password);
 
+    // generate otp
+    const activationCode = Math.floor(
+      100000 + Math.random() * 900000
+    ).toString();
+    const tokenExpiresAt = new Date(Date.now() + 1 * 60 * 1000 ); // 5 min from now
+
     let user_code = uuidv4();
 
     let user = await UserModel.create(
-      { fullname, email, password, contact_no, role, user_code },
+      {
+        fullname,
+        email,
+        password,
+        contact_no,
+        role,
+        user_code,
+        activation_code: activationCode,
+        token_expires_at: tokenExpiresAt,
+      },
       { transaction }
     );
 
@@ -64,7 +65,7 @@ const signUpUser = async (req, res) => {
     await transaction.commit();
 
     // Send registration email
-    // await sendRegistrationEmail(email);
+    await sendRegistrationEmail(email, activationCode);
 
     return res.status(201).json({
       status: 201,
